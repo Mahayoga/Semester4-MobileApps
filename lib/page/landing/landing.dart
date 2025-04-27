@@ -17,21 +17,34 @@ class _LandingPageState extends State<LandingPage> {
               children: [
                 // Login & Daftar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Text(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: const Text(
                         "Login",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 8),
-                      Text("|", style: TextStyle(color: Colors.grey)),
-                      SizedBox(width: 8),
-                      Text("Daftar", style: TextStyle(color: Colors.grey)),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text("|", style: TextStyle(color: Colors.grey)),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/daftar'); // navigasi ke halaman daftar
+                      },
+                      child: const Text(
+                        "Daftar",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
                 ),
+              ),
 
                 const SizedBox(height: 20),
 
