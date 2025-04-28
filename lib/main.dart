@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => LandingPage(),
-        '/login': (context) => LoginPage(),
+        '/login': (context) => TemanSehatLogin(),
         '/daftar': (context) => DaftarPage(),
         '/buat-username': (context) => buat_usernamePage(),
         '/akun-terverifikasi': (context) => akun_terverifikasiPage(),
