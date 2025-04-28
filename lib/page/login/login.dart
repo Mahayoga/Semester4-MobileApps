@@ -94,7 +94,7 @@ class LoginPage extends StatelessWidget {
               // Tombol Lanjutkan
               ElevatedButton(
                 onPressed: () {
-                  // Proses registrasi
+                  Navigator.pushNamed(context, '/dashboard');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8B3BE8),
