@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
 import 'page/landing/landing.dart';
+import 'page/login/login.dart';
+import 'page/login/lupa_password.dart';
+import 'page/login/verification_screen.dart';
+import 'page/login/new_password_screen.dart';
+import 'page/daftar/daftar.dart';
+import 'page/daftar/akun_terverifikasi.dart';
+import 'page/daftar/buat_username.dart';
+import 'page/daftar/verifikasi_email.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'nyoba slurr',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: LandingPage(),
+      title: 'Contoh Routing Flutter',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LandingPage(),
+        '/login': (context) => LoginPage(),
+        '/daftar': (context) => DaftarPage(),
+        '/buat-username': (context) => buat_usernamePage(),
+        '/akun-terverifikasi': (context) => akun_terverifikasiPage(),
+        '/verifikasi-email': (context) => VerifikasiEmailPage(),
+
+        // Forgot password flow
+        '/forgot-password': (context) => ForgotPasswordScreen(),
+        '/verification': (context) => VerificationScreen(),
+        '/new-password': (context) => NewPasswordScreen(),
+      },
     );
   }
 }
