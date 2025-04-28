@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import '../register/register.dart';
 
-class TemanSehatLogin extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LoginPage(),
-    );
-  }
+  State<LoginPage> createState() => _LoginPage();
 }
 
-class LoginPage extends StatelessWidget {
+class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+      body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
           width: 360,
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
@@ -48,12 +40,9 @@ class LoginPage extends StatelessWidget {
                       text: "Daftar disini",
                       style: TextStyle(color: Colors.purple),
                       recognizer: TapGestureRecognizer()
-          ..onTap = () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterPage()),
-            );
-          },
+                        ..onTap = () {
+                          Navigator.pushNamed(context, '/daftar');
+                        },
                     ),
                   ],
                 ),

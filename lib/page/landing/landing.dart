@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../login/login.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -18,34 +17,36 @@ class _LandingPageState extends State<LandingPage> {
               children: [
                 // Login & Daftar
                 Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Text("|", style: TextStyle(color: Colors.grey)),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/daftar'); // navigasi ke halaman daftar
-                      },
-                      child: const Text(
-                        "Daftar",
-                        style: TextStyle(color: Colors.grey),
+                      const SizedBox(width: 8),
+                      const Text("|", style: TextStyle(color: Colors.grey)),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, '/daftar'); // navigasi ke halaman daftar
+                        },
+                        child: const Text(
+                          "Daftar",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
 
                 const SizedBox(height: 100),
 
@@ -108,8 +109,7 @@ class _LandingPageState extends State<LandingPage> {
                       ElevatedButton(
                         onPressed: () {
                           // Navigasi ke halaman login
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => TemanSehatLogin()));
+                          Navigator.pushNamed(context, '/login');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF8B3BE8),
