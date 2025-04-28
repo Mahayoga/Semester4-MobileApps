@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
-import '../register/register.dart';
 import '../login/login.dart';
 
 class LandingPage extends StatefulWidget {

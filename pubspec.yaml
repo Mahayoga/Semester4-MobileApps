@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  fl_chart: ^0.65.0
   url_launcher: ^6.2.4
   url_launcher_web: ^2.2.4
   flutter:
@@ -62,6 +63,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/person_landing.png
+    - assets/images/profile_picture.jpeg
+    - assets/images/rekomendasi_map.png
+    - assets/images/food1.png
+    - assets/images/food2.png
+    - assets/images/food3.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

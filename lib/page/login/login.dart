@@ -101,7 +101,9 @@ class LoginPage extends StatelessWidget {
               ),
               SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/dashboard');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   minimumSize: Size(double.infinity, 48),

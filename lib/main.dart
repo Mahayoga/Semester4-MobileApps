@@ -8,6 +8,7 @@ import 'page/daftar/daftar.dart';
 import 'page/daftar/akun_terverifikasi.dart';
 import 'page/daftar/buat_username.dart';
 import 'page/daftar/verifikasi_email.dart';
+import 'page/dashboard/dashboard.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         '/forgot-password': (context) => ForgotPasswordScreen(),
         '/verification': (context) => VerificationScreen(),
         '/new-password': (context) => NewPasswordScreen(),
+
+        // Dashboard
+        '/dashboard': (context) => DashboardPage()
       },
     );
   }
