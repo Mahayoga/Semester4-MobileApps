@@ -1,122 +1,124 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import '../register/register.dart';
+
+class TemanSehatLogin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
+    );
+  }
+}
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+        Container(
+          width: 360,
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
           ),
-          width: 400,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Selamat Datang kembali',
+              Text(
+                "Selamat Datang Kembali",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Colors.grey.shade800,
                 ),
               ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Belum mempunyai akun? '),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/daftar'); // ganti sesuai route kamu
-                    },
-                    child: const Text(
-                      'Daftar disini',
-                      style: TextStyle(
-                        color: Color(0xFF8B3BE8),
-                        decoration: TextDecoration.underline,
-                      ),
+              SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  text: "Belum mempunyai akun? ",
+                  style: TextStyle(color: Colors.black87),
+                  children: [
+                    TextSpan(
+                      text: "Daftar disini",
+                      style: TextStyle(color: Colors.purple),
+                      recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              const SizedBox(height: 24),
-              // Input Email
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  filled: true,
-                  fillColor: const Color(0xFFF2F2F2),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
+              SizedBox(height: 24),
+              // Email field
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade400),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Email",
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              // Input Password
-              TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  filled: true,
-                  fillColor: const Color(0xFFF2F2F2),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
+              SizedBox(height: 16),
+              // Password field
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade400),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Password",
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              const SizedBox(height: 8),
+              SizedBox(height: 12),
               Align(
                 alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/forgot-password'); // ke lupa password
-                  },
-                  child: const Text(
-                    'Lupa Password?',
-                    style: TextStyle(
-                      color: Color(0xFF8B3BE8),
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
+                child: Text(
+                  "Lupa Password?",
+                  style: TextStyle(color: Colors.purple),
                 ),
               ),
-              const SizedBox(height: 24),
-              // Tombol Lanjutkan
+              SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/dashboard');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B3BE8),
-                  minimumSize: const Size.fromHeight(48),
+                  backgroundColor: Colors.purple,
+                  minimumSize: Size(double.infinity, 48),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  shadowColor: Colors.blueAccent,
-                  elevation: 6,
+                  elevation: 8,
+                  shadowColor: Colors.purpleAccent,
                 ),
-                child: const Text(
-                  'Lanjutkan',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Text("Lanjutkan", style: TextStyle(color: Colors.white)),
               ),
             ],
           ),
         ),
-      ),
+      ]),
     );
   }
 }

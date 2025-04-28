@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../login/login.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -46,17 +47,26 @@ class _LandingPageState extends State<LandingPage> {
                 ),
               ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 100),
 
                 // Gambar
-                Container(
-                  height: 250,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/person_landing.png'),
-                      fit: BoxFit.contain,
+                Stack(
+                  children: [
+                    Container(
+                      height: 300,
+                      decoration: BoxDecoration(),
                     ),
-                  ),
+                    Positioned(
+                      top:
+                          -20, // 🔽 ubah nilai ini untuk mengatur posisi vertikal
+                      left: 0,
+                      right: 0,
+                      child: Image.asset(
+                        'assets/images/person_landing.png',
+                        height: 400,
+                      ),
+                    ),
+                  ],
                 ),
 
                 // Konten bawah
@@ -98,14 +108,16 @@ class _LandingPageState extends State<LandingPage> {
                       ElevatedButton(
                         onPressed: () {
                           // Navigasi ke halaman login
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => TemanSehatLogin()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF8B3BE8),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 48, vertical: 14),
                         ),
                         child: const Text(
                           'Mulai sekarang!',
