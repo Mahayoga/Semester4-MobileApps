@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import '../register/register.dart';
+import '../login/login.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -17,33 +20,69 @@ class _LandingPageState extends State<LandingPage> {
               children: [
                 // Login & Daftar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      Text(
-                        "Login",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 8),
-                      Text("|", style: TextStyle(color: Colors.grey)),
-                      SizedBox(width: 8),
-                      Text("Daftar", style: TextStyle(color: Colors.grey)),
-                    ],
+                     children: [
+    Text.rich(
+      TextSpan(
+        text: 'Login',
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TemanSehatLogin()),
+            );
+          },
+      ),
+    ),
+    const SizedBox(width: 8),
+    const Text("|", style: TextStyle(color: Colors.grey)),
+    const SizedBox(width: 8),
+    Text.rich(
+      TextSpan(
+        text: 'Daftar',
+        style: const TextStyle(
+          color: Colors.grey,
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RegisterPage()),
+            );
+          },
+      ),
+    ),
+  ],
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 100),
 
                 // Gambar
-                Container(
-                  height: 250,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/person_landing.png'),
-                      fit: BoxFit.contain,
+                Stack(
+                  children: [
+                    Container(
+                      height: 300,
+                      decoration: BoxDecoration(),
                     ),
-                  ),
+                    Positioned(
+                      top:
+                          -20, // 🔽 ubah nilai ini untuk mengatur posisi vertikal
+                      left: 0,
+                      right: 0,
+                      child: Image.asset(
+                        'assets/images/person_landing.png',
+                        height: 400,
+                      ),
+                    ),
+                  ],
                 ),
 
                 // Konten bawah
@@ -85,14 +124,16 @@ class _LandingPageState extends State<LandingPage> {
                       ElevatedButton(
                         onPressed: () {
                           // Navigasi ke halaman login
-                          Navigator.pushNamed(context, '/login');
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => TemanSehatLogin()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF8B3BE8),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 48, vertical: 14),
                         ),
                         child: const Text(
                           'Mulai sekarang!',
