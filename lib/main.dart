@@ -9,6 +9,9 @@ import 'page/daftar/akun_terverifikasi.dart';
 import 'page/daftar/buat_username.dart';
 import 'page/daftar/verifikasi_email.dart';
 import 'page/dashboard/dashboard.dart';
+import 'package:get/get.dart';
+import 'page/profil/profil.dart';
+import 'page/bahasa/lang.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,12 +20,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       title: 'Contoh Routing Flutter',
       initialRoute: '/',
       routes: {
         '/': (context) => LandingPage(),
-        '/login': (context) => TemanSehatLogin(),
+        '/login': (context) => LoginPage(),
         '/daftar': (context) => DaftarPage(),
         '/buat-username': (context) => buat_usernamePage(),
         '/akun-terverifikasi': (context) => akun_terverifikasiPage(),
