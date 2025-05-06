@@ -1,0 +1,2 @@
+C:/Users/myoga/Documents/Politeknik Negeri Jember/Mahayoga Semester 4/Proyek Semester 4/Semester4-MachineLearningApps/mobile_diabetes/android/app/.cxx/Debug/4g661734/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/myoga/Documents/Politeknik Negeri Jember/Mahayoga Semester 4/Proyek Semester 4/Semester4-MachineLearningApps/mobile_diabetes/android/app/.cxx/Debug/4g661734/armeabi-v7a/CMakeFiles/rebuild_cache.dir
