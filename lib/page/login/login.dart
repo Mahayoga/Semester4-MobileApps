@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:http/http.dart' as myhttp;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -7,6 +10,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passwordC = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +64,7 @@ class _LoginPage extends State<LoginPage> {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
+                  controller: emailC,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: "Email",
@@ -73,6 +81,7 @@ class _LoginPage extends State<LoginPage> {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: TextField(
+                  controller: passwordC,
                   obscureText: true,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -91,7 +100,7 @@ class _LoginPage extends State<LoginPage> {
               SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/dashboard');
+                  handleLogin(context, emailC, passwordC);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
@@ -108,6 +117,43 @@ class _LoginPage extends State<LoginPage> {
           ),
         ),
       ]),
+    );
+  }
+}
+
+
+Future<void> handleLogin(BuildContext context, TextEditingController emailC, TextEditingController passwordC) async {
+  try {
+    var responses = await myhttp.post(Uri.parse('http://127.0.0.1:5000/login'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'email': emailC.text,
+      'password': passwordC.text
+    })
+  );
+
+  if (!context.mounted) return;
+
+  if(responses.statusCode == 200) {
+    Map<String, dynamic> theData = jsonDecode(responses.body);
+    if(theData['status'] == 'success') {
+      Navigator.pushNamed(context, '/dashboard');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Kesalahan terjadi (bukan catch)')
+        ),
+      );
+    }
+  }
+  } catch(e) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: ${e.toString()}')
+      ),
     );
   }
 }

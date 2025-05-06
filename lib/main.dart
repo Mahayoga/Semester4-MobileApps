@@ -9,7 +9,7 @@ import 'page/daftar/akun_terverifikasi.dart';
 import 'page/daftar/buat_username.dart';
 import 'page/daftar/verifikasi_email.dart';
 import 'page/dashboard/dashboard.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'page/profil/profil.dart';
 import 'page/bahasa/lang.dart';
 import 'page/profil/profil.dart';
