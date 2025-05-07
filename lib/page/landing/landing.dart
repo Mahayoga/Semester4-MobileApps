@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatefulWidget {
@@ -9,47 +10,48 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 239, 197, 243),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                RichText(
+                  text: TextSpan(
+                    text: 'LOGIN',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushNamed(context, '/login');
+                    }
+                  )
+                ),
+                const SizedBox(width: 8),
+                const Text("|", style: TextStyle(color: Colors.grey)),
+                const SizedBox(width: 8),
+                RichText(
+                  text: TextSpan(
+                    text: 'DAFTAR',
+                    style: TextStyle(fontWeight: FontWeight.normal),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushNamed(context, '/login');
+                    }
+                  )
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
       body: Container(
         color: const Color.fromARGB(255, 239, 197, 243),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Login & Daftar
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/login');
-                        },
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Text("|", style: TextStyle(color: Colors.grey)),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/daftar'); // navigasi ke halaman daftar
-                        },
-                        child: const Text(
-                          "Daftar",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 100),
-
                 // Gambar
                 Stack(
                   children: [
