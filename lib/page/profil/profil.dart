@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../bahasa/language_controller.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePagen extends StatelessWidget {
   final LanguageController languageController = Get.put(LanguageController());
 
   void _onLogout() {

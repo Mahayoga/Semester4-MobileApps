@@ -12,6 +12,7 @@ import 'page/dashboard/dashboard.dart';
 // import 'package:get/get.dart';
 import 'page/profil/profil.dart';
 import 'page/bahasa/lang.dart';
+import 'page/profil/profil.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,7 +39,10 @@ class MyApp extends StatelessWidget {
         '/new-password': (context) => NewPasswordScreen(),
 
         // Dashboard
-        '/dashboard': (context) => DashboardPage()
+        '/dashboard': (context) => DashboardPage(),
+
+        // Profil
+        '/ProfilePage' : (context) => ProfilePagen()
       },
     );
   }
