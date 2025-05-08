@@ -37,7 +37,7 @@ class _LandingPageState extends State<LandingPage> {
                     style: TextStyle(fontWeight: FontWeight.normal),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.pushNamed(context, '/login');
+                        Navigator.pushNamed(context, '/daftar');
                     }
                   )
                 ),
