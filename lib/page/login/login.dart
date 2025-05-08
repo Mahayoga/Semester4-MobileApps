@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as myhttp;
+import 'package:loading_indicator/loading_indicator.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class _LoginPage extends State<LoginPage> {
   
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+
+  bool _isLogin = false;
   
   @override
   Widget build(BuildContext context) {
@@ -111,6 +114,26 @@ class _LoginPage extends State<LoginPage> {
                   )
                 ),
                 SizedBox(height: 24),
+                if(_isLogin)
+                  Column(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 100,
+                        child: LoadingIndicator(
+                          indicatorType: Indicator.lineScale, /// Required, The loading type of the widget
+                          colors: const [
+                            Colors.purple,
+                            Color.fromARGB(255, 198, 31, 228),
+                            Color.fromARGB(255, 220, 88, 243),
+                            Color.fromARGB(255, 208, 131, 221),
+                          ],
+                          strokeWidth: 2,
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                    ]
+                  ),
                 ElevatedButton(
                   onPressed: () {
                     handleLogin(context, emailC, passwordC);
@@ -133,57 +156,58 @@ class _LoginPage extends State<LoginPage> {
       ),
     );
   }
-}
 
+  Future<void> handleLogin(BuildContext context, TextEditingController emailC, TextEditingController passwordC) async {
+    try {
+      setState(() {
+        _isLogin = true;
+      });
+      var responses = await myhttp.post(Uri.parse('http://127.0.0.1:5000/login'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'email': emailC.text,
+        'password': passwordC.text
+      })
+    );
 
-Future<void> handleLogin(BuildContext context, TextEditingController emailC, TextEditingController passwordC) async {
-  try {
-    var responses = await myhttp.post(Uri.parse('http://127.0.0.1:5000/login'),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: jsonEncode({
-      'email': emailC.text,
-      'password': passwordC.text
-    })
-  );
+    if (!context.mounted) return;
 
-  if (!context.mounted) return;
-
-  if(responses.statusCode == 200) {
-    Map<String, dynamic> theData = jsonDecode(responses.body);
-    if(theData['status'] == 'success') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.green,
-          showCloseIcon: true,
-          content: Text('Login berhasil')
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Session Gagal')
-        ),
-      );
-      // Navigator.pushNamed(context, '/dashboard');
-    } else {
+    if(responses.statusCode == 200) {
+      Map<String, dynamic> theData = jsonDecode(responses.body);
+      if(theData['status'] == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            showCloseIcon: true,
+            content: Text('Login berhasil')
+          ),
+        );
+        Navigator.pushNamed(context, '/dashboard');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            showCloseIcon: true,
+            content: Text('Kesalahan terjadi: ${theData["msg"]}')
+          ),
+        );
+      }
+    }
+    } catch(e) {
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
           showCloseIcon: true,
-          content: Text('Kesalahan terjadi: ${theData["msg"]}')
+          content: Text('Error: Koneksi gagal, silahkan coba lagi nanti')
         ),
       );
+    } finally {
+      setState(() {
+        _isLogin = false;
+      });
     }
-  }
-  } catch(e) {
-    if (!context.mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red,
-        showCloseIcon: true,
-        content: Text('Error: Koneksi gagal, silahkan coba lagi nanti')
-      ),
-    );
   }
 }
