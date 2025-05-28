@@ -1,10 +1,31 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class VerifikasiEmailPage extends StatelessWidget {
-  const VerifikasiEmailPage({super.key});
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as myhttp;
+import 'package:mobile_diabetes/page/daftar/akun_terverifikasi.dart';
+
+class VerifikasiEmailPage extends StatefulWidget {
+  final String email;
+  const VerifikasiEmailPage({super.key, required this.email});
+  @override
+  State<VerifikasiEmailPage> createState() => _VerifikasiEmailPage();
+}
+
+class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
+  
+  bool isVerifiying = false;
+  String textActionBtn = 'Kirim kode verifikasi';
+  final TextEditingController numOneC = TextEditingController();
+  final TextEditingController numTwoC = TextEditingController();
+  final TextEditingController numThreeC = TextEditingController();
+  final TextEditingController numFourC = TextEditingController();
+  final TextEditingController numFiveC = TextEditingController();
+  final TextEditingController numSixC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final FocusScopeNode focus = FocusScope.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -37,13 +58,225 @@ class VerifikasiEmailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Divider( // garis horizontal
-                color: Colors.grey,
-                thickness: 1,
-              ),
+              if(isVerifiying)
+                Row(
+                  spacing: 10,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: numOneC,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '-',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF2F2F2),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if(value.length == 1) {
+                            focus.nextFocus();
+                          } else if(value.length > 1) {
+                            numOneC.text = value[value.length - 1];
+                            focus.nextFocus();
+                          }
+                        },
+                      )
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: numTwoC,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '-',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF2F2F2),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if(value.length == 1) {
+                            focus.nextFocus();
+                          } else if(value.length > 1) {
+                            numOneC.text = value[value.length - 1];
+                            focus.nextFocus();
+                          }
+                        },
+                      )
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: numThreeC,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '-',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF2F2F2),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if(value.length == 1) {
+                            focus.nextFocus();
+                          } else if(value.length > 1) {
+                            numOneC.text = value[value.length - 1];
+                            focus.nextFocus();
+                          }
+                        },
+                      )
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: numFourC,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '-',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF2F2F2),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if(value.length == 1) {
+                            focus.nextFocus();
+                          } else if(value.length > 1) {
+                            numOneC.text = value[value.length - 1];
+                            focus.nextFocus();
+                          }
+                        },
+                      )
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: numFiveC,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '-',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF2F2F2),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if(value.length == 1) {
+                            focus.nextFocus();
+                          } else if(value.length > 1) {
+                            numOneC.text = value[value.length - 1];
+                            focus.nextFocus();
+                          }
+                        },
+                      )
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: numSixC,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 0, 0, 0)
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '-',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey
+                          ),
+                          filled: true,
+                          fillColor: const Color(0xFFF2F2F2),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if(value.length == 1) {
+                            focus.nextFocus();
+                          } else if(value.length > 1) {
+                            numOneC.text = value[value.length - 1];
+                            focus.nextFocus();
+                          }
+                        },
+                      )
+                    ),
+                  ],
+                ),
               const SizedBox(height: 16),
               const Text(
-                'Check email anda & klik link\nuntuk meng-aktivasi akun anda.',
+                'Cek email anda dan salin kode\nuntuk meng-aktivasi akun anda.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -53,7 +286,13 @@ class VerifikasiEmailPage extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/akun-terverifikasi');
+                  if(isVerifiying) {
+                    var kode = numOneC.text + numTwoC.text + numThreeC.text + numFourC.text + numFiveC.text + numSixC.text;
+                    print(kode);
+                    _handleCodeVerification(context, kode, widget.email);
+                  } else {
+                    _handleVerification(context, widget.email);
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8B3BE8),
@@ -64,8 +303,8 @@ class VerifikasiEmailPage extends StatelessWidget {
                   elevation: 4,
                   shadowColor: Color(0xFF8B3BE8).withOpacity(0.5),
                 ),
-                child: const Text(
-                  'Kirim link verifikasi',
+                child: Text(
+                  textActionBtn,
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
@@ -78,5 +317,133 @@ class VerifikasiEmailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _handleVerification(BuildContext context, String email) async {
+    try {
+      var responses = await myhttp.post(
+        Uri.parse('http://127.0.0.1:5000/verifikasi-email'),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'email': email,
+          'action': 'verification_email'
+        })
+      );
+      if (!context.mounted) return;
+
+      if(responses.statusCode == 200) {
+        Map<String, dynamic> theData = jsonDecode(responses.body);
+        if(theData['status'] == 'success') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              showCloseIcon: true,
+              duration: Duration(seconds: 2),
+              content: Text('Kode verifikasi terkirim!')
+            ),
+          );
+          setState(() {
+            textActionBtn = 'Verifikasi email saya';
+            isVerifiying = true;
+          });
+        } else if(theData['status'] == 'need_action') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.yellow,
+              showCloseIcon: true,
+              duration: Duration(seconds: 2),
+              content: Text('Email sepertinya belum terdaftar!')
+            ),
+          );
+        } else if(theData['status'] == 'error') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              showCloseIcon: true,
+              duration: Duration(seconds: 2),
+              content: Text('Terjadi kesalahan pada server!')
+            ),
+          );
+        }
+      }
+    } catch(e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          showCloseIcon: true,
+          duration: Duration(seconds: 2),
+          content: Text('Verifikasi gagal, terjadi kesalahan pada server!')
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleCodeVerification(BuildContext context, String kode, String email) async {
+    try {
+      var responses = await myhttp.post(
+        Uri.parse('http://127.0.0.1:5000/verifikasi-email'),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'email': email,
+          'kode': kode,
+          'action': 'verification_email_code'
+        })
+      );
+      if (!context.mounted) return;
+
+      if(responses.statusCode == 200) {
+        Map<String, dynamic> theData = jsonDecode(responses.body);
+        if(theData['status'] == 'success') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              showCloseIcon: true,
+              duration: Duration(seconds: 2),
+              content: Text('Verifikasi berhasil!')
+            ),
+          );
+          Future.delayed(Duration(seconds: 1), () {
+              Get.to(() => akun_terverifikasiPage(email: ''));
+            }
+          );
+        } else if(theData['status'] == 'need_action') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              showCloseIcon: true,
+              duration: Duration(seconds: 2),
+              content: Text('Verifikasi gagal, email tidak ditemukan!')
+            ),
+          );
+        } else if(theData['status'] == 'error') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              showCloseIcon: true,
+              duration: Duration(seconds: 2),
+              content: Text('Verifikasi gagal, terjadi kesalahan pada server!')
+            ),
+          );
+        }
+      }
+    } catch(e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          showCloseIcon: true,
+          duration: Duration(seconds: 2),
+          content: Text('Verifikasi gagal, terjadi kesalahan pada server!')
+        ),
+      );
+    } finally {
+      setState(() {
+        isVerifiying = false;
+        textActionBtn = 'Kirim kode verifikasi';
+      });
+    }
   }
 }

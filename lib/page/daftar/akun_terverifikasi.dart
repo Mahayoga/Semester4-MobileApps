@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class akun_terverifikasiPage extends StatelessWidget {
-  const akun_terverifikasiPage({super.key});
+  const akun_terverifikasiPage({super.key, required String email});
 
  @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class akun_terverifikasiPage extends StatelessWidget {
               const Text(
                 'Akun anda telah di-verifikasi',
                 style: TextStyle(
+                  fontFamily: 'Comfortaa',
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -43,9 +45,10 @@ class akun_terverifikasiPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Terima kasih telah bergabung dengan Teman-Sehat',
+                'Terima kasih telah bergabung dengan HealthDream',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontFamily: 'Comfortaa',
                   fontSize: 14,
                   color: Colors.black54,
                 ),
@@ -53,7 +56,9 @@ class akun_terverifikasiPage extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/buat-username');
+                  Get.to(() => {
+
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8B3BE8),
@@ -67,6 +72,7 @@ class akun_terverifikasiPage extends StatelessWidget {
                 child: const Text(
                   'Lanjutkan',
                   style: TextStyle(
+                    fontFamily: 'Comfortaa',
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

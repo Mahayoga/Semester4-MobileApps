@@ -37,13 +37,12 @@ dependencies:
   loading_indicator: ^3.1.1
   url_launcher: ^6.2.4
   url_launcher_web: ^2.2.4
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
-  http: ^1.4.0
-  loading_indicator: ^3.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -72,7 +71,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+      - family: Comfortaa
+        fonts:
+            - asset: assets/fonts/Comfortaa-Regular.ttf
+            - asset: assets/fonts/Comfortaa-Light.ttf
+            - asset: assets/fonts/Comfortaa-Bold.ttf
+              weight: 900
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

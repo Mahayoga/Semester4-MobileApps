@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
 import 'page/landing/landing.dart';
 import 'page/login/login.dart';
 import 'page/login/lupa_password.dart';
@@ -9,12 +10,13 @@ import 'page/daftar/akun_terverifikasi.dart';
 import 'page/daftar/buat_username.dart';
 import 'page/daftar/verifikasi_email.dart';
 import 'page/dashboard/dashboard.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 import 'page/profil/profil.dart';
 import 'page/bahasa/lang.dart';
 import 'page/profil/profil.dart';
 
 void main() {
+  // debugPaintSizeEnabled = true; // Lihat bounding box
   runApp(MyApp());
 }
 
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Contoh Routing Flutter',
       initialRoute: '/',
@@ -31,8 +33,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/daftar': (context) => DaftarPage(),
         '/buat-username': (context) => buat_usernamePage(),
-        '/akun-terverifikasi': (context) => akun_terverifikasiPage(),
-        '/verifikasi-email': (context) => VerifikasiEmailPage(),
+        '/akun-terverifikasi': (context) => akun_terverifikasiPage(email: ''),
+        '/verifikasi-email': (context) => VerifikasiEmailPage(email: 'Coba woiii'),
 
         // Forgot password flow
         '/forgot-password': (context) => ForgotPasswordScreen(),

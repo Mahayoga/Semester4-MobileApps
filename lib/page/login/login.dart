@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as myhttp;
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:mobile_diabetes/page/daftar/verifikasi_email.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -185,6 +187,22 @@ class _LoginPage extends State<LoginPage> {
           ),
         );
         Navigator.pushNamed(context, '/dashboard');
+      } else if(theData['status'] == 'need_action') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.deepOrange,
+            showCloseIcon: true,
+            content: Text(
+              'Email kamu perlu verifikasi sebelum login. Anda akan diarahkan ke halaman verifikasi email!',
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+              ),
+            )
+          ),
+        );
+        Future.delayed(Duration(seconds: 3), () {
+          Get.to(() => VerifikasiEmailPage(email: emailC.text));
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
