@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as myhttp;
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:mobile_diabetes/page/daftar/buat_username.dart';
 import 'package:mobile_diabetes/page/daftar/verifikasi_email.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,136 +27,133 @@ class _LoginPage extends State<LoginPage> {
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center, 
-        children: [
-          Container(
-            width: 360,
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Selamat Datang Kembali",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade800,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center, 
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Selamat Datang Kembali",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade800,
+                    ),
                   ),
-                ),
-                SizedBox(height: 8),
-                RichText(
-                  text: TextSpan(
-                    text: "Belum mempunyai akun? ",
-                    style: TextStyle(color: Colors.black87),
-                    children: [
-                      TextSpan(
-                        text: "Daftar disini",
-                        style: TextStyle(color: Colors.purple),
+                  SizedBox(height: 8),
+                  RichText(
+                    text: TextSpan(
+                      text: "Belum mempunyai akun? ",
+                      style: TextStyle(color: Colors.black87),
+                      children: [
+                        TextSpan(
+                          text: "Daftar disini",
+                          style: TextStyle(color: Colors.purple),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.pushNamed(context, '/daftar');
+                            },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  // Email field
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade400),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextField(
+                      controller: emailC,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Email",
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  // Password field
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey.shade400),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextField(
+                      controller: passwordC,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Password",
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Lupa Password?',
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, '/daftar');
+                            Navigator.pushNamed(context, '/forgot-password');
                           },
+                        style: TextStyle(
+                          color: Colors.purple
+                        )
                       ),
-                    ],
+                    )
                   ),
-                ),
-                SizedBox(height: 24),
-                // Email field
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade400),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: emailC,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Email",
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                // Password field
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade400),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: passwordC,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Password",
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Lupa Password?',
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pushNamed(context, '/forgot-password');
-                        },
-                      style: TextStyle(
-                        color: Colors.purple
-                      )
-                    ),
-                  )
-                ),
-                SizedBox(height: 24),
-                if(_isLogin)
-                  Column(
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 100,
-                        child: LoadingIndicator(
-                          indicatorType: Indicator.lineScale, /// Required, The loading type of the widget
-                          colors: const [
-                            Colors.purple,
-                            Color.fromARGB(255, 198, 31, 228),
-                            Color.fromARGB(255, 220, 88, 243),
-                            Color.fromARGB(255, 208, 131, 221),
-                          ],
-                          strokeWidth: 2,
+                  SizedBox(height: 24),
+                  if(_isLogin)
+                    Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 100,
+                          child: LoadingIndicator(
+                            indicatorType: Indicator.lineScale, /// Required, The loading type of the widget
+                            colors: const [
+                              Colors.purple,
+                              Color.fromARGB(255, 198, 31, 228),
+                              Color.fromARGB(255, 220, 88, 243),
+                              Color.fromARGB(255, 208, 131, 221),
+                            ],
+                            strokeWidth: 2,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 24),
-                    ]
-                  ),
-                ElevatedButton(
-                  onPressed: () {
-                    handleLogin(context, emailC, passwordC);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    minimumSize: Size(double.infinity, 48),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                        SizedBox(height: 24),
+                      ]
                     ),
-                    elevation: 8,
-                    shadowColor: Colors.purpleAccent,
+                  ElevatedButton(
+                    onPressed: () {
+                      handleLogin(context, emailC, passwordC);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purple,
+                      minimumSize: Size(double.infinity, 48),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 8,
+                      shadowColor: Colors.purpleAccent,
+                    ),
+                    child: Text("Lanjutkan", style: TextStyle(color: Colors.white)),
                   ),
-                  child: Text("Lanjutkan", style: TextStyle(color: Colors.white)),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ]
-      ),
+          ]
+        ),
+      )
     );
   }
 
@@ -202,6 +200,22 @@ class _LoginPage extends State<LoginPage> {
         );
         Future.delayed(Duration(seconds: 3), () {
           Get.to(() => VerifikasiEmailPage(email: emailC.text));
+        });
+      } else if(theData['status'] == 'need_action_username') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.deepOrange,
+            showCloseIcon: true,
+            content: Text(
+              'Kamu belum mendaftarkan username. Anda akan diarahkan kedalam halaman username!',
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+              ),
+            )
+          ),
+        );
+        Future.delayed(Duration(seconds: 3), () {
+          Get.to(() => buat_usernamePage(email: emailC.text));
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

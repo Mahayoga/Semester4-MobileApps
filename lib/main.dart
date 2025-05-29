@@ -32,9 +32,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => LandingPage(),
         '/login': (context) => LoginPage(),
         '/daftar': (context) => DaftarPage(),
-        '/buat-username': (context) => buat_usernamePage(),
+        '/buat-username': (context) => buat_usernamePage(email: ''),
         '/akun-terverifikasi': (context) => akun_terverifikasiPage(email: ''),
-        '/verifikasi-email': (context) => VerifikasiEmailPage(email: 'Coba woiii'),
+        '/verifikasi-email': (context) => VerifikasiEmailPage(email: ''),
 
         // Forgot password flow
         '/forgot-password': (context) => ForgotPasswordScreen(),

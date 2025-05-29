@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mobile_diabetes/page/daftar/buat_username.dart';
 
-class akun_terverifikasiPage extends StatelessWidget {
-  const akun_terverifikasiPage({super.key, required String email});
+class akun_terverifikasiPage extends StatefulWidget {
+  final String email;
+  akun_terverifikasiPage({super.key, required this.email});
+
+  @override
+  State<akun_terverifikasiPage> createState() => _akun_terverifikasiPage();
+}
+
+class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
 
  @override
   Widget build(BuildContext context) {
@@ -31,6 +39,7 @@ class akun_terverifikasiPage extends StatelessWidget {
               const SizedBox(height: 16),
               const Text(
                 'Akun anda telah di-verifikasi',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Comfortaa',
                   fontSize: 18,
@@ -56,9 +65,7 @@ class akun_terverifikasiPage extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(() => {
-
-                  });
+                  Get.to(() => buat_usernamePage(email: widget.email));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8B3BE8),
