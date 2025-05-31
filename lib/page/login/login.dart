@@ -7,6 +7,7 @@ import 'package:http/http.dart' as myhttp;
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mobile_diabetes/page/daftar/buat_username.dart';
 import 'package:mobile_diabetes/page/daftar/verifikasi_email.dart';
+import 'package:mobile_diabetes/page/dashboard/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -184,7 +185,7 @@ class _LoginPage extends State<LoginPage> {
             content: Text('Login berhasil')
           ),
         );
-        Navigator.pushNamed(context, '/dashboard');
+        Get.to(() => DashboardPage());
       } else if(theData['status'] == 'need_action') {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

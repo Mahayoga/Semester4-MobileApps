@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
 
         // Forgot password flow
         '/forgot-password': (context) => ForgotPasswordScreen(),
-        '/verification': (context) => VerificationScreen(),
+        '/verification': (context) => VerificationScreen(email: ''),
         '/new-password': (context) => NewPasswordScreen(),
 
         // Dashboard

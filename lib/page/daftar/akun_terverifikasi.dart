@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as myhttp;
 import 'package:mobile_diabetes/page/daftar/buat_username.dart';
+import 'package:mobile_diabetes/page/dashboard/dashboard.dart';
 
 class akun_terverifikasiPage extends StatefulWidget {
   final String email;
@@ -65,7 +69,11 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  Get.to(() => buat_usernamePage(email: widget.email));
+                  if(_checkUsernameExist(context) == true) {
+                    Get.to(() => DashboardPage());
+                  } else {
+                    Get.to(() => buat_usernamePage(email: widget.email));
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8B3BE8),
@@ -92,4 +100,31 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
       ),
     );
   }
+
+  Future<bool> _checkUsernameExist(BuildContext context) async {
+    try {
+      var responses = await myhttp.post(
+        Uri.parse('http://127.0.0.1:5000/check-username'),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'action': 'check_userame'
+        })
+      );
+
+      if(!context.mounted) return false;
+
+      if(responses.statusCode == 200) {
+        Map<String, dynamic> theData = jsonDecode(responses.body);
+        if(theData['status'] == 'success') {
+          return false;
+        }
+      }
+      return false;
+    } catch(e) {
+      return false;
+    }
+  }
+
 }

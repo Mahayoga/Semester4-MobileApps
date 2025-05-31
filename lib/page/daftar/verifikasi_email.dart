@@ -68,7 +68,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 0, 0, 0)
                         ),
@@ -86,6 +86,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          contentPadding: EdgeInsets.all(5)
                         ),
                         onChanged: (value) {
                           if(value.length == 1) {
@@ -103,7 +104,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 0, 0, 0)
                         ),
@@ -121,6 +122,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          contentPadding: EdgeInsets.all(5)
                         ),
                         onChanged: (value) {
                           if(value.length == 1) {
@@ -138,7 +140,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 0, 0, 0)
                         ),
@@ -156,6 +158,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          contentPadding: EdgeInsets.all(5)
                         ),
                         onChanged: (value) {
                           if(value.length == 1) {
@@ -173,7 +176,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 0, 0, 0)
                         ),
@@ -191,6 +194,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          contentPadding: EdgeInsets.all(5)
                         ),
                         onChanged: (value) {
                           if(value.length == 1) {
@@ -208,7 +212,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 0, 0, 0)
                         ),
@@ -226,6 +230,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          contentPadding: EdgeInsets.all(5)
                         ),
                         onChanged: (value) {
                           if(value.length == 1) {
@@ -243,7 +248,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: const Color.fromARGB(255, 0, 0, 0)
                         ),
@@ -261,6 +266,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                             borderRadius: BorderRadius.circular(10),
                             borderSide: BorderSide.none,
                           ),
+                          contentPadding: EdgeInsets.all(5)
                         ),
                         onChanged: (value) {
                           if(value.length == 1) {
@@ -390,7 +396,8 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
         body: jsonEncode({
           'email': email,
           'kode': kode,
-          'action': 'verification_email_code'
+          'action': 'verification_email_code',
+          'detail': 'activate_my_email'
         })
       );
       if (!context.mounted) return;
@@ -443,6 +450,12 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
       setState(() {
         isVerifiying = false;
         textActionBtn = 'Kirim kode verifikasi';
+        numOneC.clear();
+        numTwoC.clear();
+        numThreeC.clear();
+        numFourC.clear();
+        numFiveC.clear();
+        numSixC.clear();
       });
     }
   }
