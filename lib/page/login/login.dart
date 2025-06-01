@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as myhttp;
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mobile_diabetes/page/daftar/buat_username.dart';
+import 'package:mobile_diabetes/page/daftar/daftar.dart';
 import 'package:mobile_diabetes/page/daftar/verifikasi_email.dart';
 import 'package:mobile_diabetes/page/dashboard/dashboard.dart';
+import 'package:mobile_diabetes/page/login/lupa_password.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,6 +28,7 @@ class _LoginPage extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
@@ -41,6 +44,7 @@ class _LoginPage extends State<LoginPage> {
                     "Selamat Datang Kembali",
                     style: TextStyle(
                       fontSize: 20,
+                      fontFamily: 'Comfortaa',
                       fontWeight: FontWeight.bold,
                       color: Colors.grey.shade800,
                     ),
@@ -49,14 +53,14 @@ class _LoginPage extends State<LoginPage> {
                   RichText(
                     text: TextSpan(
                       text: "Belum mempunyai akun? ",
-                      style: TextStyle(color: Colors.black87),
+                      style: TextStyle(color: Colors.black87, fontFamily: 'Comfortaa',),
                       children: [
                         TextSpan(
                           text: "Daftar disini",
-                          style: TextStyle(color: Colors.purple),
+                          style: TextStyle(color: Colors.purple, fontFamily: 'Comfortaa',),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pushNamed(context, '/daftar');
+                              Get.to(() => DaftarPage());
                             },
                         ),
                       ],
@@ -73,9 +77,12 @@ class _LoginPage extends State<LoginPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
                       controller: emailC,
+                      style: TextStyle(fontFamily: 'Comfortaa',),
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Email",
+                        hintStyle: TextStyle(fontFamily: 'Comfortaa',),
+                        labelStyle: TextStyle(fontFamily: 'Comfortaa',)
                       ),
                     ),
                   ),
@@ -90,10 +97,13 @@ class _LoginPage extends State<LoginPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     child: TextField(
                       controller: passwordC,
+                      style: TextStyle(fontFamily: 'Comfortaa',),
                       obscureText: true,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Password",
+                        hintStyle: TextStyle(fontFamily: 'Comfortaa',),
+                        labelStyle: TextStyle(fontFamily: 'Comfortaa',)
                       ),
                     ),
                   ),
@@ -105,10 +115,11 @@ class _LoginPage extends State<LoginPage> {
                         text: 'Lupa Password?',
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pushNamed(context, '/forgot-password');
+                            Get.to(() => ForgotPasswordScreen());
                           },
                         style: TextStyle(
-                          color: Colors.purple
+                          color: Colors.purple,
+                          fontFamily: 'Comfortaa',
                         )
                       ),
                     )
@@ -147,7 +158,7 @@ class _LoginPage extends State<LoginPage> {
                       elevation: 8,
                       shadowColor: Colors.purpleAccent,
                     ),
-                    child: Text("Lanjutkan", style: TextStyle(color: Colors.white)),
+                    child: Text("Lanjutkan", style: TextStyle(color: Colors.white, fontFamily: 'Comfortaa',)),
                   ),
                 ],
               ),

@@ -53,6 +53,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                 'Verifikasi email anda',
                 style: TextStyle(
                   fontSize: 18,
+                  fontFamily: 'Comfortaa',
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
                 ),
@@ -286,6 +287,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
+                  fontFamily: 'Comfortaa',
                   color: Colors.black54,
                 ),
               ),
@@ -313,6 +315,7 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                   textActionBtn,
                   style: TextStyle(
                     fontSize: 14,
+                    fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

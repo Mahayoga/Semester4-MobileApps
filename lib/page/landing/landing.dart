@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mobile_diabetes/page/login/login.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -12,6 +14,7 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 239, 197, 243),
+        surfaceTintColor: Colors.transparent,
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
@@ -21,20 +24,20 @@ class _LandingPageState extends State<LandingPage> {
                 RichText(
                   text: TextSpan(
                     text: 'LOGIN',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Comfortaa'),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.pushNamed(context, '/login');
+                        Get.to(() => LoginPage());
                     }
                   )
                 ),
                 const SizedBox(width: 8),
-                const Text("|", style: TextStyle(color: Colors.grey)),
+                const Text("|", style: TextStyle(color: Colors.grey, fontFamily: 'Comfortaa')),
                 const SizedBox(width: 8),
                 RichText(
                   text: TextSpan(
                     text: 'DAFTAR',
-                    style: TextStyle(fontWeight: FontWeight.normal),
+                    style: TextStyle(fontWeight: FontWeight.normal, fontFamily: 'Comfortaa'),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Navigator.pushNamed(context, '/daftar');
@@ -88,13 +91,14 @@ class _LandingPageState extends State<LandingPage> {
                     children: [
                       const Text(
                         'Selamat Datang di',
-                        style: TextStyle(fontSize: 16, color: Colors.black54),
+                        style: TextStyle(fontSize: 16, color: Colors.black54, fontFamily: 'Comfortaa'),
                       ),
                       const SizedBox(height: 8),
                       const Text(
-                        'Teman–Sehat',
+                        'Teman-Sehat',
                         style: TextStyle(
                           fontSize: 24,
+                          fontFamily: 'Comfortaa',
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF8B3BE8),
                         ),
@@ -103,7 +107,7 @@ class _LandingPageState extends State<LandingPage> {
                       const Text(
                         'Hai! Kami siap membantu anda\nberkonsultasi dengan aplikasi kita.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                        style: TextStyle(fontSize: 14, color: Colors.black54, fontFamily: 'Comfortaa',),
                       ),
                       const SizedBox(height: 24),
                       const Icon(Icons.star_border, color: Colors.purple),
@@ -111,9 +115,12 @@ class _LandingPageState extends State<LandingPage> {
                       ElevatedButton(
                         onPressed: () {
                           // Navigasi ke halaman login
-                          Navigator.pushNamed(context, '/login');
+                          Get.to(() => LoginPage());
                         },
                         style: ElevatedButton.styleFrom(
+                          textStyle: TextStyle(
+                            fontFamily: 'Comfortaa',
+                          ),
                           backgroundColor: const Color(0xFF8B3BE8),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25),
@@ -125,6 +132,7 @@ class _LandingPageState extends State<LandingPage> {
                           'Mulai sekarang!',
                           style: TextStyle(
                             fontSize: 16,
+                            fontFamily: 'Comfortaa',
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                           ),

@@ -29,6 +29,10 @@ class _DaftarPage extends State<DaftarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
       backgroundColor: Colors.white,
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center, 
@@ -292,6 +296,7 @@ class _DaftarPage extends State<DaftarPage> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       var data = {

@@ -27,309 +27,314 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     final FocusScopeNode focus = FocusScope.of(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
       backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(color: Colors.black12, blurRadius: 10),
-            ],
-          ),
-          width: 400, // supaya gak terlalu lebar
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.lock_outline,
-                size: 80,
-                color: Color(0xFF8B3BE8), // warna ungu
+      body: Padding(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.lock_outline,
+              size: 80,
+              color: Color(0xFF8B3BE8), // warna ungu
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Masukkan email anda untuk melanjutkan',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'Comfortaa',
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
-              const SizedBox(height: 16),
-              const Text(
-                'Masukkan email anda untuk melanjutkan',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 16),
-              if(isVerifiying)
-                Row(
-                  spacing: 10,
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: numOneC,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
+            ),
+            const SizedBox(height: 16),
+            if(isVerifiying)
+              Row(
+                spacing: 10,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: numOneC,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0)
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '-',
+                        labelStyle: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0)
                         ),
-                        decoration: InputDecoration(
-                          hintText: '-',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF2F2F2),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.all(5)
-                        ),
-                        onChanged: (value) {
-                          if(value.length == 1) {
-                            focus.nextFocus();
-                          } else if(value.length > 1) {
-                            numOneC.text = value[value.length - 1];
-                            focus.nextFocus();
-                          }
-                        },
-                      )
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: numTwoC,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
+                        hintStyle: TextStyle(
                           fontFamily: 'Comfortaa',
-                          fontSize: 15,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0)
+                          color: Colors.grey
                         ),
-                        decoration: InputDecoration(
-                          hintText: '-',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF2F2F2),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.all(5)
+                        filled: true,
+                        fillColor: const Color(0xFFF2F2F2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
                         ),
-                        onChanged: (value) {
-                          if(value.length == 1) {
-                            focus.nextFocus();
-                          } else if(value.length > 1) {
-                            numOneC.text = value[value.length - 1];
-                            focus.nextFocus();
-                          }
-                        },
-                      )
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: numThreeC,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '-',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF2F2F2),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.all(5)
-                        ),
-                        onChanged: (value) {
-                          if(value.length == 1) {
-                            focus.nextFocus();
-                          } else if(value.length > 1) {
-                            numOneC.text = value[value.length - 1];
-                            focus.nextFocus();
-                          }
-                        },
-                      )
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: numFourC,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '-',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF2F2F2),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.all(5)
-                        ),
-                        onChanged: (value) {
-                          if(value.length == 1) {
-                            focus.nextFocus();
-                          } else if(value.length > 1) {
-                            numOneC.text = value[value.length - 1];
-                            focus.nextFocus();
-                          }
-                        },
-                      )
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: numFiveC,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '-',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF2F2F2),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.all(5)
-                        ),
-                        onChanged: (value) {
-                          if(value.length == 1) {
-                            focus.nextFocus();
-                          } else if(value.length > 1) {
-                            numOneC.text = value[value.length - 1];
-                            focus.nextFocus();
-                          }
-                        },
-                      )
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: numSixC,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Comfortaa',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0)
-                        ),
-                        decoration: InputDecoration(
-                          hintText: '-',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Comfortaa',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey
-                          ),
-                          filled: true,
-                          fillColor: const Color(0xFFF2F2F2),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.all(5)
-                        ),
-                        onChanged: (value) {
-                          if(value.length == 1) {
-                            focus.nextFocus();
-                          } else if(value.length > 1) {
-                            numOneC.text = value[value.length - 1];
-                            focus.nextFocus();
-                          }
-                        },
-                      )
-                    ),
-                  ],
-                ),
-              if(!isVerifiying)
-                TextField(
-                  controller: emailC,
-                  decoration: InputDecoration(
-                    labelText: 'Email anda',
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.all(10)
+                        contentPadding: EdgeInsets.all(5)
+                      ),
+                      onChanged: (value) {
+                        if(value.length == 1) {
+                          focus.nextFocus();
+                        } else if(value.length > 1) {
+                          numOneC.text = value[value.length - 1];
+                          focus.nextFocus();
+                        }
+                      },
+                    )
                   ),
-                ),
-              const SizedBox(height: 16),
-              const Text(
-                'Cek email anda dan salin kode\nuntuk me-reset password akun anda.',
-                textAlign: TextAlign.center,
+                  Expanded(
+                    child: TextField(
+                      controller: numTwoC,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0)
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '-',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF2F2F2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.all(5)
+                      ),
+                      onChanged: (value) {
+                        if(value.length == 1) {
+                          focus.nextFocus();
+                        } else if(value.length > 1) {
+                          numOneC.text = value[value.length - 1];
+                          focus.nextFocus();
+                        }
+                      },
+                    )
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: numThreeC,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0)
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '-',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF2F2F2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.all(5)
+                      ),
+                      onChanged: (value) {
+                        if(value.length == 1) {
+                          focus.nextFocus();
+                        } else if(value.length > 1) {
+                          numOneC.text = value[value.length - 1];
+                          focus.nextFocus();
+                        }
+                      },
+                    )
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: numFourC,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0)
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '-',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF2F2F2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.all(5)
+                      ),
+                      onChanged: (value) {
+                        if(value.length == 1) {
+                          focus.nextFocus();
+                        } else if(value.length > 1) {
+                          numOneC.text = value[value.length - 1];
+                          focus.nextFocus();
+                        }
+                      },
+                    )
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: numFiveC,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0)
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '-',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF2F2F2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.all(5)
+                      ),
+                      onChanged: (value) {
+                        if(value.length == 1) {
+                          focus.nextFocus();
+                        } else if(value.length > 1) {
+                          numOneC.text = value[value.length - 1];
+                          focus.nextFocus();
+                        }
+                      },
+                    )
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: numSixC,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Comfortaa',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(255, 0, 0, 0)
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '-',
+                        hintStyle: TextStyle(
+                          fontFamily: 'Comfortaa',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF2F2F2),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.all(5)
+                      ),
+                      onChanged: (value) {
+                        if(value.length == 1) {
+                          focus.nextFocus();
+                        } else if(value.length > 1) {
+                          numOneC.text = value[value.length - 1];
+                          focus.nextFocus();
+                        }
+                      },
+                    )
+                  ),
+                ],
+              ),
+            if(!isVerifiying)
+              TextField(
+                controller: emailC,
                 style: TextStyle(
+                  fontFamily: 'Comfortaa',
+                ),
+                decoration: InputDecoration(
+                  labelText: 'Email anda',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Comfortaa',
+                  ),
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(10)
+                ),
+              ),
+            const SizedBox(height: 16),
+            const Text(
+              'Cek email anda dan salin kode\nuntuk me-reset password akun anda.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Comfortaa',
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                if(isVerifiying) {
+                  var kode = numOneC.text + numTwoC.text + numThreeC.text + numFourC.text + numFiveC.text + numSixC.text;
+                  print(kode);
+                  _handleCodeVerification(context, kode, emailC.text);
+                } else {
+                  _handleVerification(context, emailC.text);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF8B3BE8),
+                minimumSize: const Size.fromHeight(48),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 4,
+                shadowColor: Color(0xFF8B3BE8).withOpacity(0.5),
+              ),
+              child: Text(
+                textActionBtn,
+                style: TextStyle(
+                  fontFamily: 'Comfortaa',
                   fontSize: 14,
-                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: () {
-                  if(isVerifiying) {
-                    var kode = numOneC.text + numTwoC.text + numThreeC.text + numFourC.text + numFiveC.text + numSixC.text;
-                    print(kode);
-                    _handleCodeVerification(context, kode, emailC.text);
-                  } else {
-                    _handleVerification(context, emailC.text);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B3BE8),
-                  minimumSize: const Size.fromHeight(48),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 4,
-                  shadowColor: Color(0xFF8B3BE8).withOpacity(0.5),
-                ),
-                child: Text(
-                  textActionBtn,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

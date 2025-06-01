@@ -69,7 +69,7 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  if(_checkUsernameExist(context) == true) {
+                  if(_checkUsernameExist(context, widget.email) == true) {
                     Get.to(() => DashboardPage());
                   } else {
                     Get.to(() => buat_usernamePage(email: widget.email));
@@ -101,7 +101,7 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
     );
   }
 
-  Future<bool> _checkUsernameExist(BuildContext context) async {
+  Future<bool> _checkUsernameExist(BuildContext context, String email) async {
     try {
       var responses = await myhttp.post(
         Uri.parse('http://127.0.0.1:5000/check-username'),
@@ -109,6 +109,7 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
           'Content-Type': 'application/json'
         },
         body: jsonEncode({
+          'email': email,
           'action': 'check_userame'
         })
       );
@@ -118,7 +119,7 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
       if(responses.statusCode == 200) {
         Map<String, dynamic> theData = jsonDecode(responses.body);
         if(theData['status'] == 'success') {
-          return false;
+          return true;
         }
       }
       return false;

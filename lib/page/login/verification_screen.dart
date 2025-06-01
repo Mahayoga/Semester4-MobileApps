@@ -29,16 +29,19 @@ class _VerificationScreen extends State<VerificationScreen> {
             SizedBox(height: 20),
             Text(
               'Reset password anda',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Comortaa'),
             ),
             SizedBox(height: 10),
-            Text('Reset password anda di bawah ini'),
+            Text('Reset password anda di bawah ini', style: TextStyle(fontFamily: 'Comortaa')),
             SizedBox(height: 10),
             TextField(
               controller: passwordC,
+              style: TextStyle(fontFamily: 'Comortaa'),
               decoration: InputDecoration(
                 hintText: 'Masukkan password baru anda',
                 labelText: 'Input password baru',
+                hintStyle: TextStyle(fontFamily: 'Comortaa'),
+                labelStyle: TextStyle(fontFamily: 'Comortaa'),
                 filled: true,
                 fillColor: const Color(0xFFF2F2F2),
                 border: OutlineInputBorder(
@@ -59,6 +62,7 @@ class _VerificationScreen extends State<VerificationScreen> {
               child: const Text(
                   'Kirim',
                   style: TextStyle(
+                    fontFamily: 'Comortaa',
                     color: Colors.white,
                     fontWeight: FontWeight.bold
                   ),
