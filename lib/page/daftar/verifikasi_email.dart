@@ -1,82 +1,155 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class VerifikasiEmailPage extends StatelessWidget {
+class VerifikasiEmailPage extends StatefulWidget {
   const VerifikasiEmailPage({super.key});
+
+  @override
+  State<VerifikasiEmailPage> createState() => _VerifikasiEmailPageState();
+}
+
+class _VerifikasiEmailPageState extends State<VerifikasiEmailPage> {
+  // Controllers for each verification code digit
+  final List<TextEditingController> controllers = List.generate(
+    5,
+    (index) => TextEditingController(),
+  );
+
+  // Focus nodes for each text field
+  final List<FocusNode> focusNodes = List.generate(
+    5,
+    (index) => FocusNode(),
+  );
+
+  @override
+  void dispose() {
+    // Clean up controllers and focus nodes
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+    for (var node in focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(24),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(color: Colors.black12, blurRadius: 10),
-            ],
-          ),
-          width: 400, // supaya gak terlalu lebar
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.mail_outline,
-                size: 80,
-                color: Color(0xFF8B3BE8), // warna ungu
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Verifikasi email anda',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Divider( // garis horizontal
-                color: Colors.grey,
-                thickness: 1,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Check email anda & klik link\nuntuk meng-aktivasi akun anda.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
-                ),
-              ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/akun-terverifikasi');
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B3BE8),
-                  minimumSize: const Size.fromHeight(48),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                // Back Button
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () => Navigator.pop(context),
                   ),
-                  elevation: 4,
-                  shadowColor: Color(0xFF8B3BE8).withOpacity(0.5),
                 ),
-                child: const Text(
-                  'Kirim link verifikasi',
+
+                const SizedBox(height: 40),
+
+                // Email Icon
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.purple.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.email_outlined,
+                    size: 40,
+                    color: Colors.purple,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Verification Text
+                const Text(
+                  'Verifikasi email anda',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
                   ),
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 40),
+
+                // Verification Code Input Fields
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(
+                    5,
+                    (index) => Container(
+                      width: 50,
+                      height: 50,
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      child: TextField(
+                        controller: controllers[index],
+                        focusNode: focusNodes[index],
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        maxLength: 1,
+                        decoration: InputDecoration(
+                          counterText: "",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.purple),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.purple, width: 2),
+                          ),
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onChanged: (value) {
+                          if (value.isNotEmpty && index < 4) {
+                            focusNodes[index + 1].requestFocus();
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                // Verification Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Handle verification logic here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                    child: const Text(
+                      'Kirim link verifikasi',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-}
+} 

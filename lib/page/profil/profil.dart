@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../bahasa/language_controller.dart';
+import '../controller/language_controller.dart';
 
 class ProfilePagen extends StatelessWidget {
-  final LanguageController languageController = Get.put(LanguageController());
+  final BahasaController languageController = Get.put(BahasaController());
 
   void _onLogout() {
     Get.offAllNamed('/login');
