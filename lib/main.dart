@@ -14,6 +14,7 @@ import 'page/dashboard/dashboard.dart';
 import 'page/profil/profil.dart';
 import 'page/controller/language_controller.dart';
 import 'page/lang/translations.dart';
+import 'page/foodpage/foodpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/new-password', page: () => NewPasswordScreen()),
         GetPage(name: '/dashboard', page: () => MainNavigation()),
         GetPage(name: '/ProfilePage', page: () => ProfilePagen()),
+        GetPage(name: '/foodpage', page: () => ProfilePagen()),
       ],
     ));
   }

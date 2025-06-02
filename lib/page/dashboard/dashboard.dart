@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobile_diabetes/page/controller/language_controller.dart';
+import 'package:mobile_diabetes/page/foodpage/foodpage.dart';
 import 'package:mobile_diabetes/page/landing/landing.dart';
 import 'package:mobile_diabetes/page/profil/profil.dart';
 import 'package:get/get.dart';
@@ -293,9 +294,9 @@ class HomeContent extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  foodCard('images/food1.png'),
-                  foodCard('images/food2.png'),
-                  foodCard('images/food3.png'),
+                  foodCard(context, 'images/food1.png'),
+                  foodCard(context, 'images/food2.png'),
+                  foodCard(context, 'images/food3.png'),
                 ],
               ),
             ),
@@ -305,9 +306,26 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  static Widget foodCard(String imagePath) {
+  static Widget foodCard(BuildContext context, String imagePath) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        if (imagePath.contains('food1')) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Food1Page()),
+          );
+        } else if (imagePath.contains('food2')) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Food2Page()),
+          );
+        } else if (imagePath.contains('food3')) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Food3Page()),
+          );
+        }
+      },
       child: Container(
         margin: const EdgeInsets.only(right: 10),
         width: 150,
@@ -873,30 +891,6 @@ class LanguageController extends StatelessWidget {
   }
 }
 
-class Food1Page extends StatelessWidget {
-  const Food1Page({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Detail Makanan 1')),
-      body: Center(child: Image.asset('images/food1.png')),
-    );
-  }
-}
-
-class Food2Page extends StatelessWidget {
-  const Food2Page({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Detail Makanan 2')),
-      body: Center(child: Image.asset('images/food2.png')),
-    );
-  }
-}
-
 class Food3Page extends StatelessWidget {
   const Food3Page({super.key});
 
@@ -916,10 +910,10 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Map<String, String>> notifications = List.generate(4, (_) {
       return {
-        'title': 'Dr. Hendra Klin...',
-        'date': 'Dec 18, 2024',
+        'title': 'Tim Developper...',
+        'date': 'June 02, 2025',
         'message':
-            'Halo kenalkan saya dokter pribadi anda yang siap untuk menemani konsultasi anda dalam kondisi apapun.',
+            'Fitur ini masih dalam tahap pengembangan.',
       };
     });
 
