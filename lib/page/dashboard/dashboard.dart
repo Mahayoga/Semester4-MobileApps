@@ -315,24 +315,39 @@ class HomeContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            Column(
+              children: [
+                Text(
+                  'Grafik glukosa terakhir anda',
+                  style: TextStyle(
+                    fontFamily: 'Comfortaa',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  )
+                ),
+                const SizedBox(height: 10),
+                SimpleLineChart(),
+                // Text('data')
+              ],
+            ),
 
             // Chart
-            Container(
-              height: 200,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              child: const SimpleLineChart(),
-            ),
+            // Container(
+            //   height: 230,
+            //   padding: const EdgeInsets.all(16),
+            //   decoration: BoxDecoration(
+            //     color: Colors.white,
+            //     borderRadius: BorderRadius.circular(20),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: Colors.grey.withOpacity(0.2),
+            //         blurRadius: 10,
+            //         spreadRadius: 2,
+            //       ),
+            //     ],
+            //   ),
+            //   child: SimpleLineChart(),
+            // ),
             const SizedBox(height: 20),
 
             // Rekomendasi Klinik
@@ -423,27 +438,36 @@ class SimpleLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LineChart(
-      LineChartData(
-        gridData: FlGridData(show: true),
-        titlesData: FlTitlesData(show: false),
-        borderData: FlBorderData(show: false),
-        lineBarsData: [
-          LineChartBarData(
-            isCurved: true,
-            color: Colors.purple,
-            barWidth: 3,
-            spots: const [
-              FlSpot(0, 3),
-              FlSpot(1, 1.5),
-              FlSpot(2, 2.8),
-              FlSpot(3, 2),
-              FlSpot(4, 3.5),
-              FlSpot(5, 1),
-              FlSpot(6, 4),
-            ],
+    return Container(
+      height: 150,
+      child: LineChart(
+        LineChartData(
+          gridData: FlGridData(show: true),
+          titlesData: FlTitlesData(
+            show: true,
+            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
+            bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
           ),
-        ],
+          borderData: FlBorderData(show: true),
+          lineBarsData: [
+            LineChartBarData(
+              isCurved: true,
+              color: Colors.purple,
+              barWidth: 2,
+              spots: const [
+                FlSpot(0, 3),
+                FlSpot(1, 1.5),
+                FlSpot(2, 2.8),
+                FlSpot(3, 2),
+                FlSpot(4, 3.5),
+                FlSpot(5, 1),
+                FlSpot(6, 4),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
