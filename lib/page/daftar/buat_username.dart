@@ -114,7 +114,7 @@ class _buat_usernamePage extends State<buat_usernamePage> {
             ),
           );
           Future.delayed(Duration(seconds: 2), () {
-            Get.to(() => DashboardPage());
+            Get.to(() => MainNavigation());
           });
         } else if(theData['status'] == 'error') {
           ScaffoldMessenger.of(context).showSnackBar(

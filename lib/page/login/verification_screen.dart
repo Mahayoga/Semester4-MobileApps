@@ -100,7 +100,7 @@ class _VerificationScreen extends State<VerificationScreen> {
               content: Text('Reset password berhasil!')
             ),
           );
-          Get.to(() => DashboardPage());
+          Get.to(() => MainNavigation());
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

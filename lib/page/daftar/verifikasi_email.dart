@@ -308,8 +308,6 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  elevation: 4,
-                  shadowColor: Color(0xFF8B3BE8).withOpacity(0.5),
                 ),
                 child: Text(
                   textActionBtn,
@@ -317,16 +315,15 @@ class _VerifikasiEmailPage extends State<VerifikasiEmailPage> {
                     fontSize: 14,
                     fontFamily: 'Comfortaa',
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
                   ),
                 ),
               ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
   Future<void> _handleVerification(BuildContext context, String email) async {
     try {

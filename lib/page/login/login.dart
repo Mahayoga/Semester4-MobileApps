@@ -10,6 +10,7 @@ import 'package:mobile_diabetes/page/daftar/daftar.dart';
 import 'package:mobile_diabetes/page/daftar/verifikasi_email.dart';
 import 'package:mobile_diabetes/page/dashboard/dashboard.dart';
 import 'package:mobile_diabetes/page/login/lupa_password.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -196,7 +197,25 @@ class _LoginPage extends State<LoginPage> {
             content: Text('Login berhasil')
           ),
         );
-        Get.to(() => DashboardPage());
+
+        final prefs = await SharedPreferences.getInstance();
+        Map<String, dynamic> dataUser = theData['data_user'];
+        
+        await prefs.setString('id_user', dataUser['id_user']);
+        await prefs.setString('id_pasien', dataUser['id_pasien']);
+        await prefs.setString('nama_depan', dataUser['nama_depan']);
+        await prefs.setString('nama_belakang', dataUser['nama_belakang']);
+        await prefs.setString('tanggal_lahir', dataUser['tanggal_lahir']);
+        await prefs.setString('umur', dataUser['umur']);
+        await prefs.setString('gender', dataUser['gender']);
+        await prefs.setString('alamat', dataUser['alamat']);
+        await prefs.setString('username', dataUser['username']);
+        await prefs.setString('role', dataUser['role']);
+        await prefs.setString('email', dataUser['email']);
+        
+        await prefs.setBool('isLoggedIn', true);
+
+        Get.offAll(() => MainNavigation());
       } else if(theData['status'] == 'need_action') {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -241,6 +260,7 @@ class _LoginPage extends State<LoginPage> {
     }
     } catch(e) {
       if (!context.mounted) return;
+      print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,

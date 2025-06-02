@@ -70,7 +70,7 @@ class _akun_terverifikasiPage extends State<akun_terverifikasiPage> {
               ElevatedButton(
                 onPressed: () {
                   if(_checkUsernameExist(context, widget.email) == true) {
-                    Get.to(() => DashboardPage());
+                    Get.to(() => MainNavigation());
                   } else {
                     Get.to(() => buat_usernamePage(email: widget.email));
                   }
