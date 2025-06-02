@@ -53,6 +53,11 @@ Future<void> savePrediction(PredictionModel prediction) async {
   List<String> predictions = prefs.getStringList(PREDICTIONS_KEY) ?? [];
   predictions.add(jsonEncode(prediction.toJson()));
   await prefs.setStringList(PREDICTIONS_KEY, predictions);
+  try {
+    
+  } catch(e) {
+
+  }
 }
 
 // Function to get all predictions from storage
@@ -65,11 +70,10 @@ Future<List<PredictionModel>> getPredictions() async {
 }
 
 // Updated prediction function
-Future<Map<String, dynamic>> predictDiabetes(Map<String, dynamic> data) async {
+Future<Map<String, dynamic>> predictDiabetes(BuildContext context, Map<String, dynamic> data) async {
   double bmi = data['weight'] / pow(data['height'] / 100, 2);
-  print(data);
-  print(pow(data['height'] / 100, 2));
-  print(bmi);
+  final prefs = await SharedPreferences.getInstance();
+  String idUser = await prefs.getString('id_user')!;
   try {
     var responses = await myhttp.post(
       Uri.parse('http://127.0.0.1:5000/lakukan-prediksi'),
@@ -82,30 +86,54 @@ Future<Map<String, dynamic>> predictDiabetes(Map<String, dynamic> data) async {
         'blood_pressure': data['bloodPressure'],
         'skin_thickness': data['skinThickness'],
         'insulin': data['insulin'],
-        'height': data['height'],
-        'weight': data['weight'],
+        'bmi': bmi,
         'age': data['age'],
-        'diabetes_pedigree_function': data['familyHistoryScore']
+        'diabetes_pedigree_function': data['familyHistoryScore'],
+        'id_user': idUser
+        // TODO
+        // mengirim id user ke api
       })
     );
-    // Simulate prediction logic
-    double probability = 87.0; // This should be replaced with actual ML model
-    String result = probability > 50 ? 'Positif' : 'Negatif';
-    
-    // Create prediction model
-    final prediction = PredictionModel(
-      date: DateTime.now().toString().split(' ')[0],
-      result: result,
-      probability: probability,
-      inputData: data,
-    );
 
-    // Save prediction
-    await savePrediction(prediction);
+    if(!context.mounted) return {'status': 'error'};
 
+    if(responses.statusCode == 200) {
+      Map<String, dynamic> theData = jsonDecode(responses.body);
+      if(theData['status'] == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            showCloseIcon: true,
+            content: Text('Prediksi terkirim!')
+          ),
+        );
+        if(theData['result'] == 1) {
+          return {
+            'probability': 'Kemungkinan Anda terkena DIABETES berdasarkan data yang anda kirimkan! Segera konsultasikan kepada dokter atau ahlinya!',
+            'status': 'Positif Diabetes',
+          };
+        } else {
+          return {
+            'probability': 'Kemungkinan Anda tidak terkena DIABETES berdasarkan data yang anda kirimkan! Jaga terus kesehatan Anda!',
+            'status': 'Negatif Diabetes',
+          };
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            showCloseIcon: true,
+            content: Text('Prediksi gagal terkirim!')
+          ),
+        );
+      }
+    } else {
+      return {
+        'status': 'error',
+      };
+    }
     return {
-      'probability': probability,
-      'status': result,
+      'status': 'error',
     };
   } catch(e) {
     return {
@@ -115,13 +143,61 @@ Future<Map<String, dynamic>> predictDiabetes(Map<String, dynamic> data) async {
 }
 
 // Updated history function
-Future<List<Map<String, dynamic>>> fetchHistory() async {
-  List<PredictionModel> predictions = await getPredictions();
-  return predictions.map((p) => {
-    'date': p.date,
-    'result': p.result,
-    'probability': p.probability,
-  }).toList();
+Future<List<dynamic>> fetchHistory() async {
+  try {
+    final prefs = await SharedPreferences.getInstance();
+    String idUser = await prefs.getString('id_user')!;
+    var responses = await myhttp.post(
+      Uri.parse('http://127.0.0.1:5000/get/data-histori/user'),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: jsonEncode({
+        'id_user': idUser
+      })
+    );
+
+    if(responses.statusCode == 200) {
+      Map<String, dynamic> theData = jsonDecode(responses.body);
+      // print([theData['data_histori']] is List<dynamic>);
+      print(theData['data_histori'].toList());
+      if(theData['status'] == 'success') {
+        print('hehe');
+        return theData['data_histori'].toList();
+      }
+    } else {
+      print('Woii');
+    }
+  } catch(e) {
+    print(e);
+    return [
+      {
+        'date': 'ERROR',
+        'result': 'ERROR',
+        'probability': 'ERROR',
+      }
+    ];
+  }
+  return [
+    {
+      'date': 'ERROR',
+      'result': 'ERROR',
+      'probability': 'ERROR',
+    }
+  ];
+  // List<PredictionModel> predictions = await getPredictions();
+  // print(
+  //   predictions.map((p) => {
+  //     'date': p.date,
+  //     'result': p.result,
+  //     'probability': p.probability,
+  //   }).toList()
+  // );
+  // return predictions.map((p) => {
+  //   'date': p.date,
+  //   'result': p.result,
+  //   'probability': p.probability,
+  // }).toList();
 }
 
 class MainNavigation extends StatefulWidget {
@@ -430,7 +506,8 @@ class _PredictionFormPageState extends State<PredictionFormPage> {
                 style: TextStyle(
                     color: Colors.purple, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
-            Text("Kemungkinan Anda Terkena Diabetes: ${result['probability']}%"),
+            Text(result['probability']),
+            const SizedBox(height: 20),
             Text("Status Prediksi: (${result['status']})",
                 style: const TextStyle(
                     color: Colors.purple, fontWeight: FontWeight.bold)),
@@ -572,7 +649,7 @@ class _PredictionFormPageState extends State<PredictionFormPage> {
               }).toList(),
             ),
             Text(
-              "Skor Riwayat: $familyScore",
+              "Skor Riwayat: ${familyScore.toStringAsFixed(3)}",
               style: const TextStyle(color: Colors.deepPurple)
             ),
             const SizedBox(height: 20),
@@ -581,7 +658,7 @@ class _PredictionFormPageState extends State<PredictionFormPage> {
                 // Collect input data
                 Map<String, dynamic> inputData = collectInputData();
                 // Perform prediction
-                Map<String, dynamic> result = await predictDiabetes(inputData);
+                Map<String, dynamic> result = await predictDiabetes(context, inputData);
                 // Show result
                 showPredictionPopup(result);
               },
@@ -645,7 +722,7 @@ class HistoryPage extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
+      body: FutureBuilder<List<dynamic>>(
         future: fetchHistory(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -663,23 +740,22 @@ class HistoryPage extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: item['result'] == 'Positif' 
+                    backgroundColor: item['outcome'] == 1 
                         ? Colors.red.withOpacity(0.2)
                         : Colors.green.withOpacity(0.2),
                     child: Icon(
-                      item['result'] == 'Positif' ? Icons.warning : Icons.check,
-                      color: item['result'] == 'Positif' ? Colors.red : Colors.green,
+                      item['outcome'] == 1 ? Icons.warning : Icons.check,
+                      color: item['outcome'] == 1 ? Colors.red : Colors.green,
                     ),
                   ),
                   title: Text(
-                    'Tanggal: ${item['date']}',
+                    'Tanggal: ${item['created_at']}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Hasil: ${item['result']}'),
-                      Text('Probabilitas: ${item['probability']}%'),
+                      Text('Hasil: ${item['outcome'] == 1 ? 'Positif' : 'Negatif'}'),
                     ],
                   ),
                   isThreeLine: true,
