@@ -16,9 +16,9 @@ class _Food1PageState extends State<Food1Page> with SingleTickerProviderStateMix
   int _currentImage = 0;
 
   final List<String> foodImages = [
-    'images/food1.png',
-    'images/food2.png',
-    'images/food3.png',
+    'assets/images/food1.png',
+    'assets/images/food2.png',
+    'assets/images/food3.png',
   ];
 
   @override
@@ -65,7 +65,7 @@ class _Food1PageState extends State<Food1Page> with SingleTickerProviderStateMix
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile_picture.jpeg'),
+              backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
               radius: 18,
             ),
           ),
@@ -84,7 +84,7 @@ class _Food1PageState extends State<Food1Page> with SingleTickerProviderStateMix
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: SizedBox(
                       height: 150,
                       child: Stack(
@@ -194,7 +194,7 @@ class _Food1PageState extends State<Food1Page> with SingleTickerProviderStateMix
                     Text('Deskripsi Makanan', style: TextStyle(fontWeight: FontWeight.bold)),
                     SizedBox(height: 4),
                     Text(
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.',
+                      'Nasi goreng mengandung kalori, karbohidrat, lemak, protein, dan berbagai vitamin serta mineral, tergantung pada bahan-bahan tambahan yang digunakan. Nasi goreng juga mengandung serat dan natrium.',
                       style: TextStyle(fontSize: 12),
                     ),
                   ],
@@ -332,7 +332,22 @@ class Food2Page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Detail Makanan 2')),
-      body: Center(child: Image.asset('images/food2.png')),
+      body: Center(
+        child: Column(
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/food2.png'),
+            Text(
+              textAlign: TextAlign.center,
+              'Developer: Fitur ini masih dalam tahap pengembangan',
+              style: TextStyle(
+                
+              ),
+            )
+          ],
+        )
+      ),
     );
   }
 }

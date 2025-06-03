@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../controller/language_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,6 +12,7 @@ class ProfilePagen extends StatefulWidget {
 
 class _ProfilePagen extends State<ProfilePagen> {
   final BahasaController languageController = Get.put(BahasaController());
+  String bahasa = 'Indonesia';
   String idUser = '';
   String idPasien = '';
   String namaDepan = '';
@@ -41,6 +44,30 @@ class _ProfilePagen extends State<ProfilePagen> {
   void _onNotification() {
     Get.toNamed('/notification');
   }
+
+  Future<void> openNearbyHospitals() async {
+  // Minta izin lokasi
+  LocationPermission permission = await Geolocator.requestPermission();
+  if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+    // Handle jika user tidak memberi izin
+    throw Exception('Location permission denied');
+  }
+
+  // Ambil posisi sekarang
+  Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+  // Format URL Google Maps untuk mencari rumah sakit terdekat
+  final url = Uri.parse(
+    'https://www.google.com/maps/search/rumah+sakit/@${position.latitude},${position.longitude},15z'
+  );
+
+  // Buka Google Maps
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url, mode: LaunchMode.externalApplication);
+  } else {
+    throw Exception('Could not launch Google Maps');
+  }
+}
 
   Future<void> _getDataUser() async {
     try {
@@ -93,7 +120,7 @@ class _ProfilePagen extends State<ProfilePagen> {
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage: AssetImage('images/profile_picture.jpeg'), // ganti dengan asset gambar kamu
+                      backgroundImage: AssetImage('assets/images/profile_picture.jpg'), // ganti dengan asset gambar kamu
                       radius: 30,
                     ),
                     const SizedBox(width: 16),
@@ -102,7 +129,7 @@ class _ProfilePagen extends State<ProfilePagen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Halo, ' + username, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text('hello'.tr + ', ' + username, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           Text(email),
                         ],
                       )
@@ -126,12 +153,18 @@ class _ProfilePagen extends State<ProfilePagen> {
                 trailing: const Icon(Icons.chevron_right),
                 onTap: _onNotification,
               ),
+              ListTile(
+                leading: const Icon(Icons.health_and_safety_sharp, color: Colors.purple),
+                title: Text('nearby clinics'.tr),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: openNearbyHospitals,
+              ),
               const SizedBox(height: 20),
               const Text('Preferences'),
               const SizedBox(height: 10),
               ListTile(
                 leading: const Icon(Icons.language, color: Colors.purple),
-                title: Text('language'.tr),
+                title: Text('language'.tr + ': ' + bahasa),
                 trailing: DropdownButton<String>(
                   underline: const SizedBox(),
                   items: const [
@@ -139,7 +172,18 @@ class _ProfilePagen extends State<ProfilePagen> {
                     DropdownMenuItem(value: 'en', child: Text('English')),
                     DropdownMenuItem(value: 'es', child: Text('Spanish')),
                   ],
-                  onChanged: (val) => languageController.changeLanguage(val!),
+                  onChanged: (val) => {
+                    languageController.changeLanguage(val!),
+                    setState(() {
+                      if(val == 'en') {
+                        bahasa = 'English';
+                      } else if(val == 'es') {
+                        bahasa = 'Spanish';
+                      } else {
+                        bahasa = 'Indonesia';
+                      }
+                    })
+                  },
                   icon: const Icon(Icons.expand_more),
                 ),
               ),

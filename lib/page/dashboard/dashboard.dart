@@ -159,17 +159,11 @@ Future<List<dynamic>> fetchHistory() async {
 
     if(responses.statusCode == 200) {
       Map<String, dynamic> theData = jsonDecode(responses.body);
-      // print([theData['data_histori']] is List<dynamic>);
-      print(theData['data_histori'].toList());
       if(theData['status'] == 'success') {
-        print('hehe');
         return theData['data_histori'].toList();
       }
-    } else {
-      print('Woii');
     }
   } catch(e) {
-    print(e);
     return [
       {
         'date': 'ERROR',
@@ -185,19 +179,6 @@ Future<List<dynamic>> fetchHistory() async {
       'probability': 'ERROR',
     }
   ];
-  // List<PredictionModel> predictions = await getPredictions();
-  // print(
-  //   predictions.map((p) => {
-  //     'date': p.date,
-  //     'result': p.result,
-  //     'probability': p.probability,
-  //   }).toList()
-  // );
-  // return predictions.map((p) => {
-  //   'date': p.date,
-  //   'result': p.result,
-  //   'probability': p.probability,
-  // }).toList();
 }
 
 class MainNavigation extends StatefulWidget {
@@ -210,7 +191,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   final List<Widget> _pages = [
-    const HomeContent(),
+    HomeContent(),
     const PredictionFormPage(),
     const HistoryPage(),
   ];
@@ -247,8 +228,58 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 }
 
-class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
+class HomeContent extends StatefulWidget {
+  @override
+  State<HomeContent> createState() => _HomeContent();
+}
+
+class _HomeContent extends State<HomeContent> {
+  String umur = '0';
+  String id = '0';
+  String rekMakananIndikator = 'FAIR';
+
+  @override
+  void initState() {
+    super.initState();
+    getUmurAndIdFromPrefs();
+  }
+
+  Future<void> getUmurAndIdFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final tempUmur = prefs.getString('umur') ?? 'nah';
+    final tempId = prefs.getString('id_user') ?? 'nah';
+    setState(() {
+      umur = tempUmur;
+      id = tempId;
+    });
+    _getRataRataGlukosa();
+  }
+
+  Future<void> _getRataRataGlukosa() async {
+    print(id);
+    try {
+      var responses = await myhttp.post(
+        Uri.parse('http://127.0.0.1:5000/get/rata-glukosa/user'),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'id_user': id
+        })
+      );
+
+      if(responses.statusCode == 200) {
+        Map<String, dynamic> theData = jsonDecode(responses.body);
+        if(theData['status'] == 'success') {
+          setState(() {
+            rekMakananIndikator = theData['rata_rata_glukosa'].toStringAsFixed(3);
+          });
+        }
+      }
+    } catch(e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -265,6 +296,19 @@ class HomeContent extends StatelessWidget {
           ),
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.health_and_safety_outlined, color: Colors.black),
+            onPressed: () async {
+              try {
+                await openNearbyHospitals();
+              } catch (e) {
+                // Tampilkan pesan error jika gagal
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Gagal membuka Google Maps: $e')),
+                );
+              }
+            },
+          ),
           // Tombol notifikasi
           IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.black),
@@ -288,7 +332,7 @@ class HomeContent extends StatelessWidget {
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: CircleAvatar(
-                backgroundImage: AssetImage('images/profile_picture.jpeg'),
+                backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
               ),
             ),
           ),
@@ -315,65 +359,115 @@ class HomeContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            Row(
+              spacing: 10,
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 100,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Umur anda',
+                            style: TextStyle(
+                              fontFamily: 'Comfortaa',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  umur,
+                                  style: TextStyle(
+                                    fontFamily: 'Comfortaa',
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              ],
+                            )
+                          ),
+                        ],
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      boxShadow: [
+                        BoxShadow(blurRadius: 3, offset: Offset(5, 5), color: Colors.grey.shade200),
+                        BoxShadow(blurRadius: 3, offset: Offset(5, 5), color: Colors.grey.shade200)
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    height: 100,
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Rata rata glukosa',
+                            style: TextStyle(
+                              fontFamily: 'Comfortaa',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  rekMakananIndikator,
+                                  style: TextStyle(
+                                    fontFamily: 'Comfortaa',
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              ],
+                            )
+                          ),
+                        ],
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade50,
+                      boxShadow: [
+                        BoxShadow(blurRadius: 3, offset: Offset(5, 5), color: Colors.grey.shade200),
+                        BoxShadow(blurRadius: 3, offset: Offset(5, 5), color: Colors.grey.shade200)
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(20))
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
             Column(
               children: [
                 Text(
                   'Grafik glukosa terakhir anda',
                   style: TextStyle(
                     fontFamily: 'Comfortaa',
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold
                   )
                 ),
-                const SizedBox(height: 10),
-                SimpleLineChart(),
-                // Text('data')
+                const SizedBox(height: 20),
+                GlucoseLineChart(),
               ],
             ),
-
-            // Chart
-            // Container(
-            //   height: 230,
-            //   padding: const EdgeInsets.all(16),
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(20),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.grey.withOpacity(0.2),
-            //         blurRadius: 10,
-            //         spreadRadius: 2,
-            //       ),
-            //     ],
-            //   ),
-            //   child: SimpleLineChart(),
-            // ),
             const SizedBox(height: 20),
-
-            // Rekomendasi Klinik
-            const Text(
-              'Rekomendasi Klinik Terdekat',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: () async {
-                try {
-                  await openNearbyHospitals();
-                } catch (e) {
-                  // Tampilkan pesan error jika gagal
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Gagal membuka Google Maps: $e')),
-                  );
-                }
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset('images/rekomendasi_map.png'),
-              ),
-            ),
-            const SizedBox(height: 20),
-
             // Rekomendasi Makanan
             const Text(
               'Rekomendasi Makanan',
@@ -385,9 +479,9 @@ class HomeContent extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  foodCard(context, 'images/food1.png'),
-                  foodCard(context, 'images/food2.png'),
-                  foodCard(context, 'images/food3.png'),
+                  foodCard(context, 'assets/images/food1.png'),
+                  foodCard(context, 'assets/images/food2.png'),
+                  foodCard(context, 'assets/images/food3.png'),
                 ],
               ),
             ),
@@ -433,13 +527,59 @@ class HomeContent extends StatelessWidget {
   }
 }
 
-class SimpleLineChart extends StatelessWidget {
-  const SimpleLineChart({super.key});
+class GlucoseLineChart extends StatefulWidget {
+  GlucoseLineChart({super.key});
+  @override
+  State<GlucoseLineChart> createState() => _GlucoseLineChart();
+}
+
+class _GlucoseLineChart extends State<GlucoseLineChart> {
+  List<FlSpot> glucoseData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getDataGlukosa();
+  }
+
+  Future<void> _getDataGlukosa() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final id = prefs.getString('id_user') ?? 'nah';
+      print(id);
+      var responses = await myhttp.post(
+        Uri.parse('http://127.0.0.1:5000/get/data-glukosa/user'),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'id_user': id
+        })
+      );
+
+      if(responses.statusCode == 200) {
+        Map<String, dynamic> theData = jsonDecode(responses.body);
+        if(theData['status'] == 'success') {
+          final hasil = <FlSpot>[];
+          for(var i = 0; i < theData['data_glukosa'].length; i++) {
+            hasil.add(FlSpot(double.parse(i.toString()), theData['data_glukosa'][i]['glucose']));
+          }
+          setState(() {
+            glucoseData = hasil;
+          });
+          return;
+        }
+      }
+      return;
+    } catch(e) {
+      return;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 180,
       child: LineChart(
         LineChartData(
           gridData: FlGridData(show: true),
@@ -447,24 +587,29 @@ class SimpleLineChart extends StatelessWidget {
             show: true,
             rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
             topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
-            bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
+            leftTitles: AxisTitles(
+              axisNameWidget: Text('Glukosa'),
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 30
+              )
+            ),
+            bottomTitles: AxisTitles(
+              axisNameWidget: Text('Seminggu terakhir'),
+              axisNameSize: 20,
+              sideTitles: SideTitles(
+                showTitles: true,
+                reservedSize: 26
+              )
+            ),
           ),
           borderData: FlBorderData(show: true),
           lineBarsData: [
             LineChartBarData(
               isCurved: true,
-              color: Colors.purple,
+              color: Colors.purple.shade200,
               barWidth: 2,
-              spots: const [
-                FlSpot(0, 3),
-                FlSpot(1, 1.5),
-                FlSpot(2, 2.8),
-                FlSpot(3, 2),
-                FlSpot(4, 3.5),
-                FlSpot(5, 1),
-                FlSpot(6, 4),
-              ],
+              spots: glucoseData
             ),
           ],
         ),
@@ -587,6 +732,19 @@ class _PredictionFormPageState extends State<PredictionFormPage> {
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.health_and_safety_outlined, color: Colors.black),
+            onPressed: () async {
+              try {
+                await openNearbyHospitals();
+              } catch (e) {
+                // Tampilkan pesan error jika gagal
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Gagal membuka Google Maps: $e')),
+                );
+              }
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.black),
             onPressed: () {
               Navigator.push(
@@ -606,7 +764,7 @@ class _PredictionFormPageState extends State<PredictionFormPage> {
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: CircleAvatar(
-                backgroundImage: AssetImage('images/profile_picture.jpeg'),
+                backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
               ),
             ),
           ),
@@ -721,6 +879,19 @@ class HistoryPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            icon: const Icon(Icons.health_and_safety_outlined, color: Colors.black),
+            onPressed: () async {
+              try {
+                await openNearbyHospitals();
+              } catch (e) {
+                // Tampilkan pesan error jika gagal
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Gagal membuka Google Maps: $e')),
+                );
+              }
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.black),
             onPressed: () {
               Navigator.push(
@@ -740,7 +911,7 @@ class HistoryPage extends StatelessWidget {
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: CircleAvatar(
-                backgroundImage: AssetImage('images/profile_picture.jpeg'),
+                backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
               ),
             ),
           ),
@@ -840,7 +1011,7 @@ class SettingsPage extends StatelessWidget {
                     const CircleAvatar(
                       radius: 30,
                       backgroundImage:
-                          AssetImage('images/profile_picture.jpeg'),
+                          AssetImage('assets/images/profile_picture.jpg'),
                     ),
                     const SizedBox(width: 16),
                     Column(
@@ -998,7 +1169,22 @@ class Food3Page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Detail Makanan 3')),
-      body: Center(child: Image.asset('images/food3.png')),
+      body: Center(
+        child: Column(
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/food3.png'),
+            Text(
+              textAlign: TextAlign.center,
+              'Developer: Fitur ini masih dalam tahap pengembangan',
+              style: TextStyle(
+                
+              ),
+            )
+          ],
+        )
+      ),
     );
   }
 }
@@ -1045,7 +1231,7 @@ class NotificationPage extends StatelessWidget {
                   // Avatar di kanan atas
                   const CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage('images/profile_picture.jpeg'),
+                    backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
                   ),
                 ],
               ),
